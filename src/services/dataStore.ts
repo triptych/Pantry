@@ -2,33 +2,35 @@
 import redis = require('redis')
 import { promisify } from 'util'
 
+// External Files
+import logService = require('./logger')
+
+// Logger setup
+const logger = new logService('Data Store')
+
 class DataStore {
-  private client
-
-  constructor() {
-    this.client = redis.createClient()
-  }
-
-  public async get(uuid: string): Promise<any> {
+  public static async get(uuid: string): Promise<any> {
     try {
-      const _get = promisify(this.client.get).bind(this.client)
+      const _client = redis.creatClient()
+      const _get = promisify(_client.get).bind(_client)
       const _payload = await _get(uuid)
-      this.client.quit()
+      _client.quit()
 
       return _payload
     } catch (error) {
-      console.log(`Redis error: ${error.message}`)
+      logger.error(`getting from cache failed: ${error.message}`)
       throw new Error('Pantry is having critical issues')
     }
   }
 
-  public async set(uuid: string, payload: string, lifespan: number): Promise<void> {
+  public static async set(uuid: string, payload: string, lifespan: number): Promise<void> {
     try {
-      const _set = promisify(this.client.set).bind(this.client)
+      const _client = redis.createClient()
+      const _set = promisify(_client.set).bind(_client)
       await _set(uuid, payload, 'EX', lifespan)
-      this.client.quit()
+      _client.quit()
     } catch (error) {
-      console.log(`Redis error: ${error.message}`)
+      logger.error(`setting to cache failed: ${error.message}`)
       throw new Error('Pantry is having critical issues')
     }
   }
