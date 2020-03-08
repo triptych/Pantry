@@ -28,8 +28,7 @@ class Block {
     try {
       const _blockKey = Block.generateRedisKey(accountUUID, name)
 
-      const _client = new DataStore()
-      const _stringifiedBlock = await _client.get(_blockKey)
+      const _stringifiedBlock = await DataStore.get(_blockKey)
 
       if (!_stringifiedBlock) {
         throw new Error(`${name} does not exist`)
@@ -96,8 +95,7 @@ class Block {
       const _blockKey = Block.generateRedisKey(this.accountUUID, this.name)
       const _stringifiedBlock = this.generateRedisPayload()
 
-      const _client = new DataStore()
-      await _client.set(_blockKey, _stringifiedBlock, this.lifeSpan)
+      await DataStore.set(_blockKey, _stringifiedBlock, this.lifeSpan)
     } catch (error) {
       throw new Error(`Block - failed to store block: ${error.message}`)
     }

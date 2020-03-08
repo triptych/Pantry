@@ -31,8 +31,7 @@ class Account {
     try {
       const _accountKey = Account.generateRedisKey(uuid)
 
-      const _client = new DataStore()
-      const _stringifiedAccount = await _client.get(_accountKey)
+      const _stringifiedAccount = await DataStore.get(_accountKey)
 
       if (!_stringifiedAccount) {
         throw new Error(`pantry with id: ${uuid} not found`)
@@ -112,8 +111,7 @@ class Account {
       const _accountKey = Account.generateRedisKey(this.uuid)
       const _stringifiedAccount = this.generateRedisPayload()
 
-      const _client = new DataStore()
-      await _client.set(_accountKey, _stringifiedAccount, this.lifeSpan)
+      await DataStore.set(_accountKey, _stringifiedAccount, this.lifeSpan)
 
       return this.uuid
     } catch (error) {
