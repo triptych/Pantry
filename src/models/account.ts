@@ -32,7 +32,6 @@ class Account {
       const _accountKey = Account.generateRedisKey(uuid)
 
       const _stringifiedAccount = await DataStore.get(_accountKey)
-
       if (!_stringifiedAccount) {
         throw new Error(`pantry with id: ${uuid} not found`)
       }

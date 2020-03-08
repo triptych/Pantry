@@ -1,5 +1,5 @@
 // External Files
-import AccountController = require('../../src/controllers/account')
+import Account = require('../../src/models/account')
 jest.mock('../../src/services/dataStore')
 
 // Interfaces
@@ -12,16 +12,20 @@ describe('When creating an account', () => {
       description: 'Account made while testing',
       contactEmail: 'derp@flerp.com',
     }
+    const _account = new Account(_params)
+    const _uuid: string = await _account.store()
 
-    const _uuid: string = await AccountController.create(_params)
     expect(_uuid).toBeDefined()
   })
 })
 
-describe('When retrieving an account', () => {
-  it ('returns the correct account attributes', async () => {
+describe('When fetching an account', () => {
+  it ('returns the account', async () => {
+    const _account = await Account.get('derp')
+    const _accountDetails = _account.sanitize()
 
-    const _accountBase: IAccountBase = await AccountController.get('123')
-    expect(_accountBase).toBeDefined()
+    const { name, description } = _accountDetails
+    expect(name).toBeDefined()
+    expect(description).toBeDefined()
   })
 })

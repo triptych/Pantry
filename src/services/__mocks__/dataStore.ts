@@ -1,17 +1,19 @@
-const mock = jest.fn().mockImplementation(() => {
-  const _account = {
-    name: 'New Account',
-    description: 'Account made while testing',
-    contactEmail: 'derp@flerp.com',
-    blocks: ['derp', 'flerp'],
-    maxNumberOfBlocks: 50,
-    notifications: true,
-    uuid: '12345',
+class DataStore {
+  public static async get() {
+    const _account = {
+      name: 'name',
+      description: 'description',
+      contactEmail: 'contactEmail',
+      blocks: [],
+      maxNumberOfBlocks: 50,
+      uuid: '12312312312312312'
+    }
+    return (JSON.stringify(_account))
   }
-  return {
-    get: () => (JSON.stringify(_account)),
-    set: () => { return },
-  }
-})
 
-export = mock
+  public static set() {
+    return
+  }
+}
+
+export = DataStore

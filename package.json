@@ -30,8 +30,7 @@
     "testRegex": "./tests/.*.test.*$",
     "modulePathIgnorePatterns": [
       "<rootDir>/dist"
-    ],
-    "automock": true
+    ]
   },
   "devDependencies": {
     "@types/jest": "^25.1.3",
