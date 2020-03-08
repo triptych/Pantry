@@ -16,7 +16,7 @@
     "fix-linting": "tslint --fix -p tsconfig.json",
     "tests": "jest --coverage",
     "build": "webpack --config webpack.prod.js",
-    "validate": "jest && tslint -c tslint.json -p tsconfig.json",
+    "validate": "tsc && jest && tslint -c tslint.json -p tsconfig.json",
     "server": "tsc && node dist/main.js"
   },
   "jest": {
@@ -27,10 +27,11 @@
     "transform": {
       "\\.(ts)$": "<rootDir>/node_modules/ts-jest"
     },
-    "testRegex": "./tests/.*.test.ts$",
+    "testRegex": "./tests/.*.test.*$",
     "modulePathIgnorePatterns": [
       "<rootDir>/dist"
-    ]
+    ],
+    "automock": true
   },
   "devDependencies": {
     "@types/jest": "^25.1.3",
